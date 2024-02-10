@@ -87,12 +87,12 @@ router.post("/createuser", async (req, res) => {
     }
 });
 
-router.delete("/delete/:username", authenticateJwt, async (req, res) => {
-    const username = req.params.userId;
+router.delete("/delete/:userId", async (req, res) => {
+    const userId = req.params.userId;
     
     try {
-        const deleteUserQuery = `DELETE FROM users WHERE username=?`;
-        const deletedUser = await con.query(deleteUserQuery, [username]);
+        const deleteUserQuery = `DELETE FROM users WHERE userId=?`;
+        const deletedUser = await con.query(deleteUserQuery, [userId]);
 
         if (deletedUser.affectedRows === 0) {
             return res.status(404).json({ message: "User not found" });

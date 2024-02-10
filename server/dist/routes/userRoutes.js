@@ -80,11 +80,11 @@ exports.router.post("/createuser", (req, res) => __awaiter(void 0, void 0, void 
         res.status(500).send("Server error");
     }
 }));
-exports.router.delete("/delete/:username", auth_1.authenticateJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const username = req.params.userId;
+exports.router.delete("/delete/:userId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.params.userId;
     try {
-        const deleteUserQuery = `DELETE FROM users WHERE username=?`;
-        const deletedUser = yield db_1.con.query(deleteUserQuery, [username]);
+        const deleteUserQuery = `DELETE FROM users WHERE userId=?`;
+        const deletedUser = yield db_1.con.query(deleteUserQuery, [userId]);
         if (deletedUser.affectedRows === 0) {
             return res.status(404).json({ message: "User not found" });
         }
