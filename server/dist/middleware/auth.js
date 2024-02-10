@@ -20,7 +20,6 @@ const authenticateJwt = (req, res, next) => {
             if (typeof payload === "string") {
                 return res.sendStatus(403);
             }
-            req.headers["userId"] = payload.id;
             next();
         });
     }

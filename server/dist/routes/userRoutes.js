@@ -51,7 +51,7 @@ exports.router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, fu
         res.status(500).send("Server error");
     }
 }));
-exports.router.get("/data", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.router.get("/data", auth_1.authenticateJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         db_1.con.query("SELECT * FROM users;", (err, results, fields) => {
             if (err)
@@ -63,7 +63,7 @@ exports.router.get("/data", (req, res) => __awaiter(void 0, void 0, void 0, func
         res.status(400).send(err.message);
     }
 }));
-exports.router.post("/createuser", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.router.post("/createuser", auth_1.authenticateJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, username, email, password } = req.body;
     try {
         const findUserQuery = `SELECT * FROM users WHERE emailId=?`;
@@ -80,7 +80,7 @@ exports.router.post("/createuser", (req, res) => __awaiter(void 0, void 0, void 
         res.status(500).send("Server error");
     }
 }));
-exports.router.delete("/delete/:userId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.router.delete("/delete/:userId", auth_1.authenticateJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.userId;
     try {
         const deleteUserQuery = `DELETE FROM users WHERE userId=?`;
@@ -95,7 +95,7 @@ exports.router.delete("/delete/:userId", (req, res) => __awaiter(void 0, void 0,
         res.status(500).send("Server error");
     }
 }));
-exports.router.put("/update/:userId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.router.put("/update/:userId", auth_1.authenticateJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.userId;
     const { name, username, email, password } = req.body;
     try {

@@ -15,11 +15,12 @@ router.post("/login", async (req, res) => {
         const user = await con.query(findUserQuery, [email, password]);
 
         if (user.length === 0) {
+            alert("Invalid credentials");
             return res.status(401).json("Invalid credentials");
         }
 
-        
-        res.status(203).json({ message: "Admin successfully signed in",});
+        const token = jwt.sign({id: user.email, role: 'admin'}, SECRET, { expiresIn: '1h' });
+        res.status(203).json({ message: "Admin successfully signed in", token});
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server error");

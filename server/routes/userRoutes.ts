@@ -44,7 +44,7 @@ router.post("/login", async (req, res) => {
     }
 });
 
-router.get("/data", async (req, res) => {
+router.get("/data", authenticateJwt, async (req, res) => {
     
 
     try {
@@ -65,7 +65,7 @@ router.get("/data", async (req, res) => {
 
 
 
-router.post("/createuser", async (req, res) => {
+router.post("/createuser",authenticateJwt, async (req, res) => {
     const { name, username, email, password } = req.body;
 
     try {
@@ -87,7 +87,7 @@ router.post("/createuser", async (req, res) => {
     }
 });
 
-router.delete("/delete/:userId", async (req, res) => {
+router.delete("/delete/:userId",authenticateJwt, async (req, res) => {
     const userId = req.params.userId;
     
     try {
@@ -105,7 +105,7 @@ router.delete("/delete/:userId", async (req, res) => {
     }
 });
 
-router.put("/update/:userId",  async (req, res) => {
+router.put("/update/:userId",authenticateJwt,  async (req, res) => {
     const userId = req.params.userId;
     const { name, username, email, password } = req.body;
 

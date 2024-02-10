@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
 const express_1 = __importDefault(require("express"));
 exports.router = express_1.default.Router();
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const auth_1 = require("../middleware/auth");
 const db_1 = require("../model/db");
 exports.router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
@@ -22,9 +24,11 @@ exports.router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, fu
         const findUserQuery = `SELECT * FROM admins WHERE name=? AND password=?`;
         const user = yield db_1.con.query(findUserQuery, [email, password]);
         if (user.length === 0) {
+            alert("nvalid credentials");
             return res.status(401).json("Invalid credentials");
         }
-        res.status(203).json({ message: "Admin successfully signed in", });
+        const token = jsonwebtoken_1.default.sign({ id: user.email, role: 'admin' }, auth_1.SECRET, { expiresIn: '1h' });
+        res.status(203).json({ message: "Admin successfully signed in", token });
     }
     catch (err) {
         console.error(err.message);
